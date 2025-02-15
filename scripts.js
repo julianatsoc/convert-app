@@ -4,7 +4,9 @@ const GBP = 7.17;
 const form = document.querySelector("form");
 const amount = document.getElementById("amount");
 const currency = document.getElementById("currency");
-
+const footer = document.querySelector("main footer");
+const description = document.getElementById("description");
+const result = document.getElementById("result");
 
 
 amount.addEventListener("input", () => {
@@ -26,3 +28,26 @@ form.onsubmit = (e) =>{
             break;
     }
 };
+
+function convertCurrency (amount, price, symbol){
+        try {
+            description.textContent = `${symbol} 1 = ${formatCurrencyBRL(price)}`;
+            footer.classList.add("show-result");
+            let total = amount * price;
+
+            if(isNaN(total)){
+                return alert("Por favor, insira o valor corretamente para converter");
+            };
+            total = formatCurrencyBRL(total).replace("R$", "");
+            result.textContent = `${total} Reais`
+            } catch (error) {
+            footer.classList.remove("show-result");
+            alert("Não foi possível converter no momento.");
+        }
+}
+function formatCurrencyBRL (value) {
+    return Number(value).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+    });
+}
